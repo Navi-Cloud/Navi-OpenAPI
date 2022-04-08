@@ -1,0 +1,26 @@
+version: "3"
+services:
+  combiner:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    volumes:
+      - ./out:/swagger/out
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    depends_on:
+      combiner:
+        condition: service_completed_successfully
+    environment:
+      URLS: |
+        [
+          {
+            "url": "./definition/auth-bundle.yaml",
+            "name": "Navi Authentication Microservice"
+          }
+        ]
+
+    volumes:
+      - ./out:/usr/share/nginx/html/definition
+    ports:
+      - "8080:8080"
