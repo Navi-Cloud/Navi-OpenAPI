@@ -1,0 +1,4 @@
+NaviAuthorization:
+  type: http
+  scheme: bearer
+  description: A Bearer Access Token for Authorization
