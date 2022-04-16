@@ -1,0 +1,22 @@
+ErrorResponse:
+  type: object
+  properties:
+    code:
+      type: integer
+    message:
+      type: string
+    detailedMessage:
+      type: string
+FileMetadataResponse:
+  type: object
+  properties:
+    fileId:
+      type: string
+    parentFileId:
+      type: string
+    fileName:
+      type: string
+    userId:
+      type: string
+    metadataType:
+      type: integer

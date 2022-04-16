@@ -17,6 +17,10 @@ services:
           {
             "url": "./definition/auth-bundle.yaml",
             "name": "Navi Authentication Microservice"
+          },
+          {
+            "url": "./definition/storage-bundle.yaml",
+            "name": "Navi Storage Microservice"
           }
         ]
 

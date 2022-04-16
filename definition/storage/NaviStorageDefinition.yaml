@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: Navi-Cloud Storage Microservice
+  description: Navi-Cloud Storage Microservice Definition
+  version: 1.0.0
+servers:
+  - url: "http://localhost:8080"
+    description: Server by Nginx Gateway(Server started by docker-compose)
+  - url: "https://localhost:7288"
+    description: Navi-Cloud Local Individual Server.
+tags:
+  - name: File
+    description: File Related Tags(Folder/File)
+
+paths:
+  /api/file/{fileId}:
+    get:
+      security:
+        - NaviAuthorization: []
+      tags:
+        - File
+      summary: "Get File Metadata Information"
+      parameters:
+        - name: "fileId"
+          required: true
+          description: File Id to get metadata.
+          schema:
+            type: string
+          in: "path"
+      responses:
+        200:
+          description: "When successfully got file data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileMetadataResponse"
+        401:
+          description: "When unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                code: 401
+                message: Unauthorized!
+                detailedMessage: Requesting to server is not authorized.
+        404:
+          description: "When file id is not found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                code: 404
+                message: Requested Resource not found!
+                detailedMessage: File Id {fileId} is not found on server!
+  /api/file/{fileId}/explore:
+    get:
+      security:
+        - NaviAuthorization: []
+      tags:
+        - File
+      summary: "List file metadata inside requested fileId"
+      parameters:
+        - name: "fileId"
+          required: true
+          description: File Id to get metadata.
+          schema:
+            type: string
+          in: "path"
+      responses:
+        200:
+          description: "When successfully got file data"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FileMetadataResponse"
+        401:
+          description: "When unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                code: 401
+                message: Unauthorized!
+                detailedMessage: Requesting to server is not authorized.
+components:
+  schemas:
+    $ref: "schemas.yaml"
+  securitySchemes:
+    $ref: "../GlobalSecurity.yaml"
